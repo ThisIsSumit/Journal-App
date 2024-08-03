@@ -3,15 +3,15 @@ package com.example.journalapp.entity;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Document(collection = "journal_entries")
 public class JournalEntry {
     @Id
-    private  String id;
+    private String id;
     private  String title;
     private  String content;
-    private Date date;
+    private LocalDateTime date;
 
     public String getId() {
         return id;
@@ -37,11 +37,11 @@ public class JournalEntry {
         this.content = content;
     }
 
-    public Date getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 }
