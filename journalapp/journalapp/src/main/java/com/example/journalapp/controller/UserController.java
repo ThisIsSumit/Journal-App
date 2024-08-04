@@ -33,9 +33,6 @@ public class UserController {
                 userService.saveEntry(user);
             }
             return  new ResponseEntity<>(HttpStatus.NO_CONTENT);
-
     }
-
-
 
 }
