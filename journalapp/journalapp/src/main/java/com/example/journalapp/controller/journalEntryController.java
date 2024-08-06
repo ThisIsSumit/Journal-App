@@ -51,24 +51,28 @@ public class journalEntryController {
         Optional<JournalEntry>journalEntry= journalEntryService.findById(myId);
         return journalEntry.map(entry -> new ResponseEntity<>(entry, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
-    @DeleteMapping("id/{myId}")
-    public ResponseEntity<?> removeJournalId(@PathVariable  String myId){
-         journalEntryService.deleteById(myId);
+    @DeleteMapping("id/{userName}/{myId}")
+    public ResponseEntity<?> removeJournalId(@PathVariable  String myId,@PathVariable String userName){
+         journalEntryService.deleteById(myId,userName);
 
          return  new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-//    @PutMapping("id/{myId}")
-//    public  ResponseEntity<?> updateJournalById(@PathVariable String myId, @RequestBody JournalEntry myEntry){
-//       JournalEntry oldEntry=journalEntryService.findById(myId).orElse(null);
-//       if(oldEntry!=null){
-//           oldEntry.setTitle(myEntry.getTitle()!=null && myEntry.getTitle().equals("")? myEntry.getTitle() : oldEntry.getTitle());
-//           oldEntry.setContent(myEntry.getContent()!=null && !myEntry.equals("")? myEntry.getContent(): oldEntry.getContent());
-//           journalEntryService.saveEntry(myEntry, user);
-//           return  new ResponseEntity<>(oldEntry,HttpStatus.OK);
-//       }
-//        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//
-//    }
+    @PutMapping("id/{userName}/{myId}")
+    public  ResponseEntity<?> updateJournalById(
+            @PathVariable String myId,
+            @RequestBody JournalEntry myEntry,
+            @PathVariable String userName
+    ){
+       JournalEntry oldEntry=journalEntryService.findById(myId).orElse(null);
+       if(oldEntry!=null){
+           oldEntry.setTitle(myEntry.getTitle().isEmpty() ? myEntry.getTitle() : oldEntry.getTitle());
+           oldEntry.setContent(myEntry.getContent()!=null && !myEntry.equals("")? myEntry.getContent(): oldEntry.getContent());
+           journalEntryService.saveEntry(myEntry);
+           return  new ResponseEntity<>(oldEntry,HttpStatus.OK);
+       }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+    }
 
 
 }
